@@ -524,6 +524,41 @@ func (ih *internalHandlers) saveApplicationID(_ Session, evt *Ready) {
 //
 //////////////////////////////////////////////////////
 
+func (c *Client) SendFollowupInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *CreateMessage) error {
+	postBody, contentType, err := message.prepare()
+	if err != nil {
+		return err
+	}
+
+	endpoint := fmt.Sprintf("/webhooks/%d/%s?wait=true", interaction.ApplicationID, interaction.Token)
+	req := &httd.Request{
+		Endpoint:    endpoint,
+		Method:      "POST",
+		Body:        postBody,
+		Ctx:         ctx,
+		ContentType: contentType,
+	}
+	_, _, err = c.req.Do(ctx, req)
+	return err
+}
+
+func (c *Client) DeleteInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *UpdateMessage) error {
+	_, contentType, err := message.prepare()
+	if err != nil {
+		return err
+	}
+
+	endpoint := fmt.Sprintf("/webhooks/%d/%s/messages/@original", interaction.ApplicationID, interaction.Token)
+	req := &httd.Request{
+		Endpoint:    endpoint,
+		Method:      "DELETE",
+		Ctx:         ctx,
+		ContentType: contentType,
+	}
+	_, _, err = c.req.Do(ctx, req)
+	return err
+}
+
 func (c *Client) EditInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *UpdateMessage) error {
 	postBody, contentType, err := message.prepare()
 	if err != nil {

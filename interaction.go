@@ -54,11 +54,12 @@ const (
 // ApplicationCommandInteractionDataResolved
 // https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object-resolved-data-structure
 type ApplicationCommandInteractionDataResolved struct {
-	Users    map[Snowflake]*User    `json:"users"`
-	Members  map[Snowflake]*Member  `json:"members"`
-	Roles    map[Snowflake]*Role    `json:"roles"`
-	Channels map[Snowflake]*Channel `json:"channels"`
-	Messages map[Snowflake]*Message `json:"messages"`
+	Users       map[Snowflake]*User       `json:"users"`
+	Members     map[Snowflake]*Member     `json:"members"`
+	Roles       map[Snowflake]*Role       `json:"roles"`
+	Channels    map[Snowflake]*Channel    `json:"channels"`
+	Messages    map[Snowflake]*Message    `json:"messages"`
+	Attachments map[Snowflake]*Attachment `json:"attachments"`
 }
 
 type ApplicationCommandInteractionData struct {
@@ -96,6 +97,8 @@ type CreateInteractionResponseData struct {
 
 	SpoilerTagContent        bool `json:"-"`
 	SpoilerTagAllAttachments bool `json:"-"`
+
+	Choices []*ApplicationCommandOptionChoice `json:"choices,omitempty"`
 }
 
 type CreateInteractionResponse struct {
