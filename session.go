@@ -35,7 +35,9 @@ type Session interface {
 
 	ClientQueryBuilder
 	EditInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *UpdateMessage) error
+	DeleteInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *UpdateMessage) error
 	SendInteractionResponse(context context.Context, interaction *InteractionCreate, data *CreateInteractionResponse) error
+	SendFollowupInteractionResponse(ctx context.Context, interaction *InteractionCreate, message *CreateMessage) error
 
 	UpdateStatus(s *UpdateStatusPayload) error
 	UpdateStatusString(s string) error
